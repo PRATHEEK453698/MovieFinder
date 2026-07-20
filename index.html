@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MovieFinder</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div id="preloader">
+
+    <div class="preloader-content">
+
+        <div class="preloader-icon">
+            🎬
+        </div>
+
+        <h1>Movie Finder</h1>
+
+        <p>Loading Movies...</p>
+
+    </div>
+
+</div>
+
+<div class="top">
+<nav class="navbar">
+    <a href="#" class="logo" id="homeLogo">
+
+    MOVIE <span>FINDER</span>
+
+</a>
+
+
+    <ul class="nav-links">
+
+
+
+        <li><a href="#" id="genresBtn">Genres</a></li>
+
+<li><a href="#" id="watchlistBtn">Watchlist</a></li>
+
+<li><a href="#" id="exploreBtn">Explore</a></li>
+
+<li><a href="#" id="aboutBtn">About</a></li>
+
+    </ul>
+
+</nav>
+
+<h1 class="hero-title">
+    Discover Your Next Favourite Movie
+</h1>
+
+<p class="hero-subtitle">
+    One Search. Thousands of Stories.
+</p>
+
+<div class="search_box" id="searchBox">
+
+    <div class="search-input">
+
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input type="text" placeholder="&#8981; Search...">
+
+    <div id="searchAutocomplete"></div>
+
+
+</div>
+
+    <button class="search_button">Search</button>
+
+
+</div>
+    <div class="loading-bar" id="loadingBar"></div>
+    <hr class="hero-divider">
+
+<div class="no-results" id="noResults">
+
+    <h2>🎬 Nothing Found</h2>
+
+    <p>
+        We couldn't find anything matching your search.
+    </p>
+
+    <h3>Try searching for</h3>
+
+    <div id="suggestionList"></div>
+
+</div>
+</div>
+</div>
+
+
+<div class="category-container">
+
+    <button class="category active" data-type="movie">
+        🎬 Movies
+    </button>
+
+    <button class="category" data-type="anime">
+        🎌 Anime
+    </button>
+
+    <button class="category" data-type="tv">
+        📺 TV Series
+    </button>
+
+</div>
+
+
+<section class="featured">
+
+    <h2 class="featured-movies-title">Popular</h2>
+
+    <div class="movie-container">
+
+
+
+
+    <div class="load-more">
+
+    <button id="popularMore"
+            class="load-more-btn">
+
+        ➜
+
+    </button>
+    </div>
+        </div>
+
+</section>
+
+<section class="featured">
+
+    <h2 class="trending-title">Trending</h2>
+
+    <div class="movie-container trending-container">
+
+
+
+
+    <div class="load-more">
+
+    <button
+        class="load-more-btn"
+        id="trendingMore">
+
+        ➜
+
+    </button>
+
+</div>
+        </div>
+
+
+</section>
+
+<section class="featured">
+
+    <h2 class="top-rated-title">Top Rated</h2>
+
+    <div class="movie-container top-rated-container">
+
+
+
+
+    <div class="load-more">
+
+    <button
+        class="load-more-btn"
+        id="topRatedMore">
+
+        ➜
+
+    </button>
+
+</div>
+        </div>
+
+</section>
+
+<section class="featured">
+
+    <h2 class="now-playing-title" id="nowPlayingTitle">Now Playing</h2>
+
+    <div class="movie-container now-playing-container">
+
+
+
+
+    <div class="load-more">
+
+    <button
+        class="load-more-btn"
+        id="nowPlayingMore">
+
+        ➜
+
+    </button>
+
+</div>
+        </div>
+
+</section>
+
+<section class="featured">
+
+    <h2 class="upcoming" id="upcomingTitle">Upcoming</h2>
+
+    <div class="movie-container upcoming-container">
+
+
+
+
+    <div class="load-more">
+
+    <button
+        class="load-more-btn"
+        id="upcomingMore">
+
+        ➜
+
+    </button>
+
+</div>
+        </div>
+
+</section>
+
+<div class="search-section">
+
+    <div class="selected-filters"></div>
+
+    <button id="backButton">← Back to Browse</button>
+
+    <div class="featured">
+
+        <h2>Search Results</h2>
+
+        <div class="search-results-container"></div>
+
+    </div>
+
+    <div class="featured">
+
+        <h2>Recommended For You</h2>
+
+        <div class="recommended-container"></div>
+
+    </div>
+
+</div>
+
+<div id="genreOverlay"></div>
+<div class="genre-section-page">
+
+    <button id="genreBackButton">
+
+        ← Back to Browse
+
+    </button>
+
+    <h2>
+
+        Browse by Genre
+
+    </h2>
+
+
+
+    <div class="genre-grid">
+
+
+    </div>
+    <div id="yearOverlay"></div>
+    <div id="yearModal">
+
+        <span id="closeYearModal">&times;</span>
+
+<h3>Select Year</h3>
+
+<input
+type="text"
+id="yearInput"
+placeholder="Example: 2000-2010">
+
+        <p id="yearError"></p>
+
+<p class="year-help">
+
+2024 • 2000-2010 • 2020- • -1995
+
+</p>
+
+<button id="applyYear">
+
+Apply
+
+</button>
+
+</div>
+
+    <div id="languageOverlay"></div>
+
+<div id="languageModal">
+
+    <span id="closeLanguageModal">&times;</span>
+
+    <h3>Language</h3>
+
+    <div class="filter-list" id="languageList">
+
+    </div>
+
+</div>
+
+    <div id="ratingOverlay"></div>
+
+<div id="ratingModal">
+
+    <span id="closeRatingModal">&times;</span>
+
+    <h3>Rating</h3>
+
+    <div class="filter-list" id="ratingList">
+
+        <button data-rating="1">⭐ 1+</button>
+        <button data-rating="2">⭐ 2+</button>
+        <button data-rating="3">⭐ 3+</button>
+        <button data-rating="4">⭐ 4+</button>
+        <button data-rating="5">⭐ 5+</button>
+        <button data-rating="6">⭐ 6+</button>
+        <button data-rating="7">⭐ 7+</button>
+        <button data-rating="8">⭐ 8+</button>
+        <button data-rating="9">⭐ 9+</button>
+
+    </div>
+
+</div>
+
+    <div id="platformOverlay"></div>
+
+<div id="platformModal">
+
+    <span id="closePlatformModal">&times;</span>
+
+    <h3>Streaming Platform</h3>
+
+    <div class="filter-list" id="platformList">
+
+        <button data-provider="8">Netflix</button>
+
+        <button data-provider="119">Prime Video</button>
+
+        <button data-provider="337">Disney+</button>
+
+        <button data-provider="531">Apple TV+</button>
+
+        <button data-provider="122">JioHotstar</button>
+
+        <button data-provider="237">Sony LIV</button>
+
+        <button data-provider="232">ZEE5</button>
+
+        <button data-provider="119">Amazon Prime Channels</button>
+
+        <button data-provider="350">Apple TV</button>
+
+        <button data-provider="384">HBO Max / Max</button>
+
+        <button data-provider="15">Hulu</button>
+
+        <button data-provider="283">Crunchyroll</button>
+
+        <button data-provider="11">MUBI</button>
+
+        <button data-provider="613">Paramount+</button>
+
+        <button data-provider="2">Apple iTunes</button>
+
+        <button data-provider="3">Google Play Movies</button>
+
+        <button data-provider="192">YouTube Movies</button>
+
+        <button data-provider="315">Hoichoi</button>
+
+        <button data-provider="371">Sun NXT</button>
+
+        <button data-provider="564">Aha</button>
+
+    </div>
+
+</div>
+
+    <button id="applyFilters">
+    Apply Filters
+</button>
+
+</div>
+
+
+<div id="globalLoader">
+
+    <div class="loader-circle"></div>
+
+</div>
+
+
+<div class="popup-overlay">
+    <div class="popup-loader" id="popupLoader">
+
+
+
+</div>
+
+    <div class="popup">
+
+
+
+    <div class="popup-close" id="close-popup">&times;</div>
+
+    <div class="popup-content">
+
+        <img class="popup-poster" src="k.png" id="popup-poster" alt="Movie Poster">
+
+        <div class="popup-details">
+
+            <h2 id="popup-title">Interstellar</h2>
+
+            <div class="movie-info" id="popup-info">
+                2014 | 2h 49m | ⭐ 8.7
+            </div>
+
+            <div class="genre-section">
+
+                <h4>🎭 Genre</h4>
+
+                <p class="genre" id="popup-genre">
+                    Sci-Fi • Adventure • Drama
+                </p>
+
+            </div>
+
+            <div class="cast-section">
+
+                <h4 id="popupCastHeading">👥 Cast</h4>
+
+                <p class="cast" id="popup-cast">
+                    Matthew McConaughey • Anne Hathaway • Jessica Chastain
+                </p>
+
+            </div>
+
+            <div class="overview-preview">
+
+                <p id="popup-overview">
+                    A team of explorers travel through a newly discovered wormhole in space in an attempt to ensure humanity's survival before Earth becomes uninhabitable. As they journey across galaxies, they encounter extraordinary phenomena that challenge everything they know about time, gravity, and love...
+                </p>
+
+            </div>
+
+            <button class="overview-btn" id="continueReading">
+
+                Continue Reading →
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+<div class="details-overlay" id="detailsOverlay">
+    <button id="detailsBackButton">
+
+    ← Back
+
+</button>
+
+    <button id="watchlistDetailsBtn">
+
+    ❤️ Add to Watchlist
+
+</button>
+
+
+
+
+
+    <div class="details-hero" id="detailsHero">
+
+        <div class="details-hero-content">
+
+
+    <p id="detailsTagline"></p>
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+    <div class="details-content">
+
+        <img
+id="detailsPoster"
+class="details-poster">
+
+<div class="details-info">
+
+    <div class="movie-header">
+
+    <h1 id="detailsTitle"></h1>
+
+    <p id="detailsInfo"></p>
+
+</div>
+
+
+
+
+    <div class="details-meta">
+        <div class="meta">
+
+    <p>
+        <strong>• Genres:</strong>
+        <span id="detailsGenres"></span>
+    </p>
+
+    <p>
+        <strong>• Language:</strong>
+        <span id="detailsLanguage"></span>
+    </p>
+
+    <p>
+        <strong>• Release:</strong>
+        <span id="detailsRelease"></span>
+    </p>
+
+    <p>
+        <strong>• Status:</strong>
+        <span id="detailsStatus"></span>
+    </p>
+
+    <p>
+
+        <strong>• Budget:</strong>
+        <span id="detailsBudget"></span>
+
+    </p>
+        <p>
+
+<strong>• Revenue:</strong>
+
+<span id="detailsRevenue"></span>
+
+</p>
+
+        <p>
+
+<strong>• Companies:</strong>
+
+<span id="detailsCompanies"></span>
+
+</p>
+
+        <p>
+
+<strong>• Countries:</strong>
+
+<span id="detailsCountries"></span>
+
+</p>
+        </div>
+        <hr class="details-divider">
+
+    <div class="details-overview">
+
+    <h2>Overview</h2>
+
+    <p id="detailsOverview"></p>
+
+        <div class="ai-panel">
+
+    <button id="aiOverviewBtn">
+
+        ✨  AI Insight →
+
+    </button>
+
+    <div id="aiOverviewBox"></div>
+
+</div>
+
+</div>
+
+        <hr class="details-divider">
+        <div class="details-cast">
+
+
+    <h2 id="detailsCastHeading">Cast</h2>
+
+
+
+    <div class="cast-cards" id="castCards">
+
+</div>
+
+<div class="more-cast">
+
+    <p id="detailsCast"></p>
+
+</div>
+
+<p id="showAllCast">
+
+    Show All →
+
+</p>
+
+</div>
+        <div class="details-characters" id="detailsCharacters">
+
+    <div class="character-scroll" id="characterScroll">
+
+    </div>
+
+</div>
+
+
+        <hr class="details-divider" id="seasonDivider">
+
+        <div class="detailsSeasons" id="detailsSeasons">
+
+    <h2 id="relatedHeading">Seasons & Episodes</h2>
+
+    <div class="season-layout">
+
+        <div class="episode-popup" id="episodePopup">
+
+            <div class="episode-popup-header">
+
+                <h3>Episode Details</h3>
+
+                <span id="closeEpisodePopup">&times;</span>
+
+            </div>
+
+            <img id="episodeStill">
+
+            <h2 id="episodeTitle"></h2>
+
+            <p id="episodeInfo"></p>
+
+            <p id="episodePlaceholder">
+
+    🎬 Select any episode to view its details.
+
+</p>
+
+<p id="episodeOverview"></p>
+
+        </div>
+
+        <div id="seasonContainer"></div>
+
+    </div>
+
+</div>
+
+<hr class="details-divider">
+
+
+
+        <div class="details-trailer">
+
+    <h2>Official Trailer</h2>
+
+    <div id="trailerContainer"></div>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+<div id="exploreOverlay"></div>
+
+<div id="exploreModal">
+
+    <span id="closeExplore">&times;</span>
+
+    <h2>✨ Explore</h2>
+
+    <p class="exploreText">
+
+        Describe the type of movie, TV show or anime you're looking for.
+
+    </p>
+
+    <textarea
+        id="exploreInput"
+        placeholder="Example: A dark psychological anime with brilliant plot twists..."
+    ></textarea>
+
+    <button id="exploreSearch">
+
+        Explore
+
+    </button>
+
+    <div id="exploreResults">
+
+    </div>
+
+</div>
+<div id="watchlistOverlay"></div>
+
+<div id="watchlistModal">
+
+    <span id="closeWatchlist">&times;</span>
+
+    <h2>
+
+        ❤️ My Watchlist
+
+    </h2>
+
+    <div id="watchlistContent">
+
+    <div id="watchlistContainer"></div>
+
+</div>
+
+</div>
+
+<div id="aboutOverlay"></div>
+
+<div id="aboutModal">
+
+    <span id="closeAbout">&times;</span>
+
+    <div class="about-content">
+
+        <h1>About Movie Finder</h1>
+
+        <p>
+
+            <h2>Welcome to Movie Finder</h2>
+
+<p>
+Welcome to <strong>Movie Finder</strong>, an all-in-one entertainment discovery platform created for movie lovers, television enthusiasts, and anime fans alike. In today's world, finding something worth watching can often mean jumping between multiple websites, comparing ratings, reading reviews, and searching through endless lists of recommendations. Movie Finder was built to simplify that entire experience by bringing everything together into one modern, intuitive, and interactive platform.
+</p>
+
+<p>
+Whether you're searching for a timeless classic, the latest blockbuster, a trending television series, or your next favorite anime, Movie Finder provides a seamless way to discover and explore entertainment without unnecessary complexity. Every feature has been designed with simplicity, speed, and usability in mind, allowing users to spend less time searching and more time enjoying great stories.
+</p>
+
+
+<h2>AI-Powered Discovery</h2>
+
+<p>
+Movie Finder goes beyond traditional search by incorporating artificial intelligence into the discovery experience. Instead of simply displaying information from a database, the platform can generate engaging AI-powered overviews that introduce users to movies, TV shows, and anime in a natural and conversational manner. These summaries are designed to provide meaningful insights while remaining spoiler-free, making them useful for both first-time viewers and experienced fans.
+</p>
+
+<p>
+The platform also includes an intelligent recommendation system where users can describe exactly what they're looking for in plain English. Whether it's "a mind-bending sci-fi movie," "a wholesome slice-of-life anime," or "a fast-paced action series with great character development," Movie Finder analyzes the request and suggests titles that closely match the user's interests. This creates a more personalized browsing experience than traditional keyword-based searches.
+</p>
+
+
+<h2>Features</h2>
+
+<p>
+Movie Finder combines a wide range of features into a single platform to make entertainment discovery both enjoyable and efficient. Users can search across thousands of movies, television shows, and anime while accessing detailed information including ratings, release dates, genres, runtimes, studios, production companies, languages, seasons, episodes, cast members, and much more depending on the selected title.
+</p>
+
+<p>
+To help users organize content they wish to watch later, the platform includes a fully functional watchlist system that allows titles to be saved locally with a single click. Users can also browse content by genre, explore detailed information pages, and quickly switch between different forms of entertainment without leaving the website.
+</p>
+
+<p>
+Special attention has been given to handling incomplete or inconsistent data returned by external APIs. Missing posters, unavailable cast images, incomplete metadata, and differences between movie, television, and anime information are handled gracefully to ensure that the interface remains visually consistent and user-friendly throughout the application.
+</p>
+
+
+<h2>Technology Behind the Project</h2>
+
+<p>
+Movie Finder is a full-stack web application developed using a combination of modern frontend and backend technologies. The user interface has been built with <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong>, focusing on responsive layouts, smooth animations, and an intuitive user experience. The backend is powered by <strong>Python</strong> using the <strong>Flask</strong> framework, enabling efficient communication between the frontend, external APIs, and AI services.
+</p>
+
+<p>
+The platform integrates data from multiple trusted sources to deliver accurate and comprehensive entertainment information. Movie and television content is primarily provided through <strong>TMDB (The Movie Database)</strong>, while anime-specific information is obtained through <strong>AniList</strong>. Artificial intelligence capabilities are powered through <strong>Google Gemini</strong>, enabling natural-language summaries and personalized recommendations that enhance the overall user experience.
+</p>
+
+<p>
+Throughout the development process, emphasis was placed on creating reusable components, maintaining clean code organization, handling asynchronous API requests efficiently, and ensuring that the interface remains responsive across different screen sizes. These design choices not only improve performance but also demonstrate practical software engineering principles commonly used in modern web development.
+</p>
+
+
+<h2>Our Goal</h2>
+
+<p>
+The primary objective behind Movie Finder is to create a single destination for discovering entertainment without overwhelming the user with unnecessary complexity. Instead of relying on multiple websites to search for movies, television shows, and anime separately, users can explore everything from one clean and consistent interface while benefiting from intelligent AI-assisted recommendations and detailed content information.
+</p>
+
+<p>
+This project also represents a practical application of full-stack development concepts, combining frontend design, backend development, API integration, asynchronous programming, state management, and artificial intelligence into a unified real-world application. Every feature was developed with the intention of creating an experience that is both visually appealing and genuinely useful to everyday users.
+</p>
+
+
+<h2>Thank You</h2>
+
+<p>
+Thank you for taking the time to visit <strong>Movie Finder</strong>. We hope the platform makes discovering your next favorite movie, television series, or anime both simple and enjoyable. Whether you're a casual viewer looking for weekend entertainment or a passionate fan searching for hidden gems, Movie Finder is designed to help you explore new stories with confidence.
+</p>
+
+<p>
+We appreciate your support and hope you enjoy everything Movie Finder has to offer. Happy exploring, and may your next great watch be just one search away!
+</p>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<script src="scripts.js"></script>
+</body>
+
+</html>
