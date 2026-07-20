@@ -702,7 +702,7 @@ exploreSearch.addEventListener("click", async function () {
 
     exploreResults.innerHTML="Thinking...";
 
-    const response = await fetch("http://127.0.0.1:5000/explore",{
+    const response = await fetch("https://moviefinder-j67d.onrender.com/explore",{
 
         method:"POST",
 
@@ -6422,7 +6422,7 @@ async function loadAnimeSearchSuggestions(query){
 
 async function correctSearch(query){
 
-    const response = await fetch("http://127.0.0.1:5000/correct-search",{
+    const response = await fetch("https://moviefinder-j67d.onrender.com/correct-search",{
 
         method:"POST",
 
@@ -6693,7 +6693,7 @@ async function generateAIOverview(){
 
     aiOverviewBtn.textContent = "Generating...";
 
-    const response = await fetch("http://127.0.0.1:5000/overview",{
+    const response = await fetch("https://moviefinder-j67d.onrender.com/overview",{
 
         method:"POST",
 
