@@ -7,6 +7,8 @@ let currentCategory = "movie";
 let currentAPI = "movie";
 let loadingCount=0;
 
+
+
 const categoryButtons = document.querySelectorAll(".category");
 
 const nowPlayingTitle =
@@ -146,8 +148,7 @@ document.getElementById("episodePlaceholder");
 const closeEpisodePopup =
 document.getElementById("closeEpisodePopup");
 
-const detailsSeasons =
-document.getElementById("detailsSeasons");
+
 
 const seasonDivider =
 document.getElementById("seasonDivider");
@@ -168,6 +169,9 @@ const homeLogo = document.getElementById("homeLogo");
 const preloader =
 document.getElementById("preloader");
 
+
+const detailsSeasons =
+document.getElementById("relatedHeading")
 
 const detailsCastHeading =
 document.getElementById("detailsCastHeading");
@@ -352,6 +356,38 @@ function saveWatchlist(){
     );
 
 }
+
+const viewport = window.visualViewport;
+
+function setupKeyboardAwareModal(modalId){
+
+    const modal = document.getElementById(modalId);
+
+    if(!modal || !viewport) return;
+
+    viewport.addEventListener("resize",()=>{
+
+        if(window.innerHeight - viewport.height > 150){
+
+            const shift = (window.innerHeight - viewport.height) / 2;
+
+            modal.style.transform =
+                `translate(-50%, calc(-50% - ${shift}px))`;
+
+        }
+
+        else{
+
+            modal.style.transform="translate(-50%,-50%)";
+
+        }
+
+    });
+
+}
+
+setupKeyboardAwareModal("exploreModal");
+setupKeyboardAwareModal("yearModal");
 
 
 watchlistDetailsBtn.addEventListener("click",function(){
@@ -580,6 +616,8 @@ function renderWatchlist(){
 
         startPopupLoading();
 
+        pushScreen("popup");
+
         showAnime(item.id);
 
     }
@@ -656,6 +694,8 @@ exploreBtn.addEventListener("click",function(e){
     e.preventDefault();
 
     exploreOverlay.style.display="block";
+
+    pushScreen("explore");
 
     document.body.style.overflow = "hidden";
 
@@ -847,6 +887,8 @@ async function exploreMovie(title){
 
             startPopupLoading();
 
+            pushScreen("popup");
+
             showAnime(data.data.Media.id);
 
         });
@@ -905,9 +947,21 @@ exploreResults.innerHTML="";
 
 }
 
-closeExplore.addEventListener("click",closeExplorePopup);
+closeExplore.addEventListener("click",function(){
 
-exploreOverlay.addEventListener("click",closeExplorePopup);
+    navigationStack.pop();
+
+    closeExplorePopup();
+
+});
+
+exploreOverlay.addEventListener("click",function(){
+
+    navigationStack.pop();
+
+    closeExplorePopup();
+
+});
 
 searchInput.addEventListener("input", function () {
 
@@ -917,21 +971,50 @@ searchInput.addEventListener("input", function () {
 
 });
 
+
+function resetSearchUI(){
+
+    searchInput.value="";
+
+    firstSuggestion="";
+
+    suggestionList.innerHTML="";
+    suggestionList.style.display="none";
+
+    searchBox.classList.remove("search-mode");
+
+    searchAutocomplete.innerHTML="";
+    searchAutocomplete.style.display="none";
+
+    noResults.style.display="none";
+
+    searchResultsContainer.innerHTML="";
+
+    backButton.style.display="none";
+
+}
+
 function autoCompleteSearch(){
 
     const query = searchInput.value.trim();
 
     console.log("autocomplete running");
 
-    if(query.length < 3){
+    if(query.length<3){
 
+    firstSuggestion="";
 
-        firstSuggestion = "";
-        suggestionList.innerHTML = "";
-        suggestionList.style.display = "none";
-        return;
+    suggestionList.innerHTML="";
 
-    }
+    suggestionList.style.display="none";
+
+    searchAutocomplete.innerHTML="";
+
+    searchAutocomplete.style.display="none";
+
+    return;
+
+}
 
     if(currentCategory=="anime"){
 
@@ -983,7 +1066,7 @@ if(results.length>0){
 
         if(results.length==0){
 
-            suggestionList.style.display="none";
+            suggestionList.style.display="block";
 
             firstSuggestion = "";
 
@@ -1001,7 +1084,7 @@ if(results.length>0){
 
                 searchInput.value=p.textContent;
 
-                suggestionList.style.display="none";
+
 
 
 
@@ -1101,7 +1184,7 @@ if(results.length>0){
 
 if(results.length==0){
 
-suggestionList.style.display="none";
+suggestionList.style.display="block";
 
 firstSuggestion = "";
 
@@ -1754,6 +1837,8 @@ genresBtn.addEventListener("click",function(e){
 
     genreOverlay.style.display="block";
 
+    pushScreen("genre");
+
     document.body.style.overflow = "hidden";
 
 genrePage.style.display="block";
@@ -1766,6 +1851,8 @@ genreBackButton.addEventListener("click",function(){
     genreOverlay.style.display="none";
 
     document.body.style.overflow = "auto";
+
+    navigationStack.pop();
 
     genrePage.style.display="none";
 
@@ -1956,6 +2043,8 @@ yearButton.addEventListener("click",function(){
 
     yearModal.style.display="block";
 
+    pushScreen("year");
+
     yearOverlay.style.display="block";
 
 });
@@ -2040,6 +2129,8 @@ ratingButton.addEventListener("click",function(){
 
     ratingModal.style.display="block";
 
+    pushScreen("rating");
+
     ratingOverlay.style.display="block";
 
 });
@@ -2097,6 +2188,8 @@ selectedLanguage!=""
 
         languageModal.style.display="block";
 
+        pushScreen("language");
+
         languageOverlay.style.display="block";
 
     });
@@ -2147,6 +2240,8 @@ platformButton.addEventListener("click",function(){
 
     platformModal.style.display="block";
 
+    pushScreen("platform");
+
     platformOverlay.style.display="block";
 
 });
@@ -2167,6 +2262,8 @@ function applyGenreFilters(page=1){
 if(page==1){
 
     pages.genres=1;
+
+    pushScreen("genres");
 
 }
 
@@ -2509,6 +2606,208 @@ let currentView={
 
 
 
+//================ Navigation =================
+
+let navigationStack = [];
+
+let ignoreBrowserBack = false;
+
+function pushScreen(type){
+
+    navigationStack.push(type);
+
+    history.pushState(
+        {
+            screen:type
+        },
+        ""
+    );
+
+}
+
+function closeCurrentScreen(){
+
+    if(navigationStack.length==0){
+
+        return;
+
+    }
+
+    const screen=navigationStack.pop();
+
+    switch(screen){
+
+        case "popup":
+
+            popup.style.display="none";
+            popupBox.classList.remove("show");
+            document.body.style.overflow="auto";
+
+            break;
+
+        case "details":
+
+
+
+
+
+    handleDetailsBack();
+
+
+
+            break;
+
+        case "watchlist":
+
+            watchlistOverlay.style.display="none";
+            watchlistModal.style.display="none";
+            document.body.style.overflow="auto";
+
+            break;
+
+        case "about":
+
+            aboutOverlay.style.display="none";
+            aboutModal.style.display="none";
+            document.body.style.overflow="auto";
+
+            break;
+
+        case "explore":
+
+            closeExplorePopup();
+
+            break;
+
+        case "genre":
+
+            genreOverlay.style.display="none";
+            genrePage.style.display="none";
+            document.body.style.overflow="auto";
+
+            break;
+
+        case "genres":
+
+    searchSection.style.display="none";
+
+    searchResultsContainer.parentElement.style.display="none";
+
+    recommendedContainer.parentElement.style.display="none";
+
+    heroTitle.style.display="block";
+
+    heroSubtitle.style.display="block";
+
+    movieContainer.parentElement.style.display="block";
+
+    trendingContainer.parentElement.style.display="block";
+
+    topRatedContainer.parentElement.style.display="block";
+
+    nowPlayingContainer.parentElement.style.display="block";
+
+    upcomingContainer.parentElement.style.display="block";
+
+    backButton.style.display="none";
+
+    break;
+
+
+        case "search":
+
+
+resetSearchUI();
+
+searchSection.style.display="none";
+
+heroTitle.style.display="block";
+
+heroSubtitle.style.display="block";
+
+movieContainer.parentElement.style.display="block";
+
+trendingContainer.parentElement.style.display="block";
+
+topRatedContainer.parentElement.style.display="block";
+
+nowPlayingContainer.parentElement.style.display="block";
+
+upcomingContainer.parentElement.style.display="block";
+
+            case "year":
+
+    yearModal.style.display="none";
+    yearOverlay.style.display="none";
+    break;
+
+case "language":
+
+    languageModal.style.display="none";
+    languageOverlay.style.display="none";
+    break;
+
+case "rating":
+
+    ratingModal.style.display="none";
+    ratingOverlay.style.display="none";
+    break;
+
+case "platform":
+
+    platformModal.style.display="none";
+    platformOverlay.style.display="none";
+    break;
+
+
+    }
+
+}
+
+let exitReady=false;
+
+window.addEventListener("popstate",function(){
+
+    if(ignoreBrowserBack){
+
+        ignoreBrowserBack=false;
+
+        return;
+
+    }
+
+    if(navigationStack.length){
+
+        closeCurrentScreen();
+
+        return;
+
+    }
+
+    if(!exitReady){
+
+        exitReady=true;
+
+        alert("Press back again to exit.");
+
+        history.pushState(
+            {
+                screen:"home"
+            },
+            ""
+        );
+
+        setTimeout(function(){
+
+            exitReady=false;
+
+        },2000);
+
+    }
+
+});
+
+
 
 
 yearInput.addEventListener("input",function(){
@@ -2545,24 +2844,26 @@ aboutBtn.addEventListener("click",function(e){
 
     aboutModal.style.display="block";
 
+    pushScreen("about");
+
 });
 
 closeAbout.addEventListener("click",function(){
 
+    navigationStack.pop();
+
     aboutOverlay.style.display="none";
-
-    document.body.style.overflow = "auto";
-
+    document.body.style.overflow="auto";
     aboutModal.style.display="none";
 
 });
 
 aboutOverlay.addEventListener("click",function(){
 
+    navigationStack.pop();
+
     aboutOverlay.style.display="none";
-
-    document.body.style.overflow = "auto";
-
+    document.body.style.overflow="auto";
     aboutModal.style.display="none";
 
 });
@@ -2572,6 +2873,8 @@ watchlistBtn.addEventListener("click",function(e){
     e.preventDefault();
 
     renderWatchlist();
+
+    pushScreen("watchlist");
 
     watchlistOverlay.style.display="block";
 
@@ -2583,20 +2886,20 @@ watchlistBtn.addEventListener("click",function(e){
 
 closeWatchlist.addEventListener("click",function(){
 
+    navigationStack.pop();
+
     watchlistOverlay.style.display="none";
-
-    document.body.style.overflow = "auto";
-
+    document.body.style.overflow="auto";
     watchlistModal.style.display="none";
 
 });
 
 watchlistOverlay.addEventListener("click",function(){
 
+    navigationStack.pop();
+
     watchlistOverlay.style.display="none";
-
-    document.body.style.overflow = "auto";
-
+    document.body.style.overflow="auto";
     watchlistModal.style.display="none";
 
 });
@@ -2721,6 +3024,13 @@ document.body.style.overflow = "auto";
 aboutModal.style.display="none";
 watchlistDetailsBtn.style.display="none";
 
+history.replaceState(
+    {
+        screen:"home"
+    },
+    ""
+);
+
 });
 
 
@@ -2753,6 +3063,7 @@ function openDetails(){
     detailsOverlay.style.display = "block";
     document.body.style.overflow = "hidden";
     watchlistDetailsBtn.style.display="inline-block";
+    pushScreen("details");
 
 }
 
@@ -3039,6 +3350,8 @@ episodeList.className = "episode-list";
     p.addEventListener("click",function(){
 
         episodePopup.style.display = "block";
+
+
         episodePopup.scrollTop = 0;
 
         episodeTitle.textContent = episode.name;
@@ -3179,6 +3492,8 @@ ${year=="Unknown"?year:year.toString().substring(0,4)}
     startPopupLoading();
 console.log(movie);
 console.log(movie.id);
+
+pushScreen("popup");
 showAnime(movie.id);
 
 }
@@ -3581,6 +3896,8 @@ currentView.movieId = movieID;
 popupCastHeading.textContent = "👥 Cast";
 
 detailsCastHeading.textContent = "Cast";
+
+detailsSeasons.textContent="Seasons & Episodes";
 
 
 
@@ -4043,6 +4360,8 @@ setTimeout(function(){
 
 },10);
 
+pushScreen("popup");
+
 });
 
 
@@ -4058,9 +4377,13 @@ function showAnime(id){
 currentAnimeId = id;
 currentView.movieId = id;
 
+
+
 popupCastHeading.textContent = "👥 Characters";
 
 detailsCastHeading.textContent = "Characters";
+
+detailsSeasons.textContent="Related ";
 
 
 
@@ -4402,8 +4725,7 @@ if (anime.trailer && anime.trailer.site === "youtube") {
 
     trailerContainer.innerHTML = `
         <iframe
-            width="100%"
-            height="500"
+
             src="https://www.youtube.com/embed/${anime.trailer.id}?rel=0"
             title="Official Trailer"
             frameborder="0"
@@ -4477,6 +4799,7 @@ card.addEventListener("click",function(){
 
 animeHistory.push(currentAnimeId);
 
+
     startPopupLoading();
 
     detailsOverlay.scrollTo({
@@ -4497,9 +4820,14 @@ animeHistory.push(currentAnimeId);
         aiOverviewBox.textContent="";
         aiOverviewBox.style.display = "none";
 
+        pushScreen("popup");
+
         showAnime(relation.node.id);
 
     },500);
+
+
+
 
 });
 
@@ -4610,6 +4938,52 @@ if(loadingCount >= 4){
 }
 
 
+
+function handleDetailsBack(){
+console.log("HANDLE");
+console.log(animeHistory);
+console.log(navigationStack);
+    trailerContainer.innerHTML = "";
+    aiOverviewBox.textContent ="";
+    aiOverviewBox.style.display="none";
+    aiOverviewBtn.textContent="✨ AI Insight →";
+
+    detailsOverlay.scrollTop = 0;
+    characterScroll.scrollLeft = 0;
+
+    if(currentCategory=="anime" && animeHistory.length>0){
+
+        const previousAnime=animeHistory.pop();
+
+        showAnime(previousAnime);
+
+        return;
+
+    }
+
+    if(openedSeason!=null){
+
+        const openedList=document.getElementById(
+            "season"+openedSeason
+        );
+
+        if(openedList){
+
+            openedList.innerHTML="";
+
+        }
+
+    }
+
+    openedSeason=null;
+
+    episodePopup.style.display="none";
+
+    detailsOverlay.style.display="none";
+
+    document.body.style.overflow="auto";
+
+}
 
 function loadMovies(page=1){
     const API_KEY = "f1f19a032c563adfb9d5bd034ace57e4";
@@ -5407,7 +5781,7 @@ p.addEventListener("click",function(){
 
 searchInput.value=this.textContent;
 
-suggestionList.style.display = "none";
+suggestionList.style.display = "block";
 
 searchMovies();
 
@@ -5447,7 +5821,7 @@ return;
 
     searchInput.value=this.textContent;
 
-    suggestionList.style.display = "none";
+    suggestionList.style.display = "block";
 
     searchMovies();
 
@@ -5618,6 +5992,9 @@ function searchMovies(page=1){
 
     const searchText = searchInput.value;
     if(page==1){
+
+
+    pushScreen("search");
 
     pages.search=1;
     searchResultsContainer.scrollLeft=0;
@@ -5934,9 +6311,7 @@ else{
 
 searchButton.addEventListener("click",function(){
 
-    suggestionList.style.display="none";
 
-    suggestionList.style.display = "none";
 
     if(firstSuggestion!=""){
 
@@ -6038,14 +6413,21 @@ pages = {
 
 
 
-closeButton.addEventListener("click", function(){
+closeButton.addEventListener("click",function(){
+
+    if(navigationStack.length){
+
+        navigationStack.pop();
+
+    }
 
     popupBox.classList.remove("show");
 
     setTimeout(function(){
 
-        popup.style.display = "none";
-        document.body.style.overflow = "auto";
+        popup.style.display="none";
+
+        document.body.style.overflow="auto";
 
     },300);
 
@@ -6056,6 +6438,13 @@ backButton.addEventListener("click", function(){
 
     searchInput.value = "";
     suggestionList.innerHTML="";
+
+
+    if(navigationStack.length){
+
+    navigationStack.pop();
+
+}
 
 
 
@@ -6134,7 +6523,7 @@ searchInput.addEventListener("keydown",function(event){
 
     if(event.key == "Enter"){
 
-    suggestionList.style.display = "none";
+
 
     if(firstSuggestion!=""){
 
@@ -6171,20 +6560,29 @@ document.addEventListener("keydown",function(event){
 
 
 
-popup.addEventListener("click",function(event){
+popup.addEventListener("click",function(e){
 
-    if(event.target == popup){
+    if(e.target!==popup){
 
-        popupBox.classList.remove("show");
-
-        setTimeout(function(){
-
-            popup.style.display="none";
-            document.body.style.overflow = "auto";
-
-        },300);
+        return;
 
     }
+
+    if(navigationStack.length){
+
+        navigationStack.pop();
+
+    }
+
+    popupBox.classList.remove("show");
+
+    setTimeout(function(){
+
+        popup.style.display="none";
+
+        document.body.style.overflow="auto";
+
+    },300);
 
 });
 
@@ -6290,7 +6688,7 @@ function showAutocomplete(results,query){
 
             searchAutocomplete.style.display="none";
 
-            suggestionList.style.display = "none";
+
 
             searchMovies();
 
@@ -6585,43 +6983,19 @@ loadCategory();
 
 
 detailsBackButton.addEventListener("click",function(){
-trailerContainer.innerHTML = "";
-aiOverviewBox.textContent ="";
-aiOverviewBox.style.display = "none";
-aiOverviewBtn.textContent ="✨  AI Insight →";
-    detailsOverlay.scrollTop = 0;
-    characterScroll.scrollLeft = 0;
-if(currentCategory=="anime" && animeHistory.length>0){
 
-    const previousAnime = animeHistory.pop();
+    if(navigationStack.length){
 
-    showAnime(previousAnime);
-
-    return;
-
-}
-
-//seasonContainer.innerHTML = "";
-if(openedSeason != null){
-
-    const openedList = document.getElementById("season" + openedSeason);
-
-    if(openedList){
-
-        openedList.innerHTML = "";
+        navigationStack.pop();
 
     }
 
-}
-
-openedSeason = null;
-episodePopup.style.display = "none";
-
-    detailsOverlay.style.display = "none";
-
-    document.body.style.overflow = "auto";
+    handleDetailsBack();
 
 });
+
+
+
 
 document.getElementById("popularMore").addEventListener("click",function(){
 

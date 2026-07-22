@@ -28,7 +28,7 @@ def home():
 def test():
 
     response = client.models.generate_content(
-        model="gemini-3.5-flash",
+        model="gemini-3.1-flash-lite",
         contents="Say hello to Movie Finder in one short sentence."
     )
 

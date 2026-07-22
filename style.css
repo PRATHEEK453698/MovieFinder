@@ -187,8 +187,39 @@ margin-bottom:25px;
     display:inline-block;
 
     text-shadow:0 0 15px rgba(255,215,0,0.25);
+
+    position:relative;
+
+
 }
 
+.logo::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-6px;
+
+    width:100%;
+
+    height:3px;
+
+    bottom:7px;
+
+    border-radius:20px;
+
+    color: white;
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #fff7cc,
+        #FFD700
+    );
+
+}
 
 .logo:hover{
     transform:scale(1.05);
@@ -1880,6 +1911,16 @@ color:var(--accent-color);
 
 }
 
+.detailsHeading {
+
+    color:var(--accent-color);
+
+    margin-bottom:15px;
+
+    font-size:32px;
+
+}
+
 .details-overview p{
 
     text-align:left;
@@ -2524,7 +2565,7 @@ font-size:.85rem;
 
     position:fixed;
 
-    overflow:hidden;
+    overflow:visible;
 
     display:none;
 
@@ -4014,5 +4055,1050 @@ transform:scale(1.2);
     backdrop-filter:blur(8px);
 
     z-index:9998;
+
+}
+
+
+/*============================Mobile===========================*/
+@media (hover:none){
+
+    .logo:hover,
+
+    .autocomplete-item:hover,
+    .search_button:hover,
+    .category:hover,
+    .movie-card:hover,
+    #backButton:hover,
+    #suggestionList p:hover,
+    .load-more-circle:hover,
+    .overview-btn:hover,
+    .popup-close:hover,
+    #showAllCast:hover,
+    #detailsBackButton:hover,
+    #closeEpisodePopup:hover,
+    .episode-button:hover,
+    .season h3:hover,
+    .character-card:hover,
+    .season-card:hover,
+    .genre-chip:hover,
+    #genreBackButton:hover,
+    #closeYearModal:hover,
+    #applyYear:hover,
+    #applyFilters:hover,
+    .selected-genre:hover,
+    #closeLanguageModal:hover,
+    #closeRatingModal:hover,
+    #closePlatformModal:hover,
+    .filter-list button:hover,
+    .selected-filter-chip:hover,
+    #aiOverviewBtn:hover,
+    #closeExplore:hover,
+    #exploreSearch:hover,
+    .explore-item:hover,
+    .watchlist-remove:hover,
+    #watchlistDetailsBtn:hover,
+    .watchlist-item:hover,
+    #closeWatchlist:hover,
+    #closeAbout:hover{
+
+        transform:none;
+        box-shadow:none;
+        color:inherit;
+        border-color:inherit;
+        background:inherit;
+
+    }
+
+    #detailsBackButton:hover{
+
+        background:rgba(20,20,20,.47);
+        color:white;
+
+    }
+
+    #watchlistDetailsBtn:hover{
+
+        background:rgba(20,20,20,.47);
+        color:white;
+
+    }
+
+    #backButton:hover{
+
+        background:var(--glass-medium);
+        color:white;
+
+    }
+
+    #genreBackButton:hover{
+
+        background:var(--glass-medium);
+        color:white;
+
+    }
+
+    .search_button:hover,
+    .category:hover,
+    #applyFilters:hover,
+    #applyYear:hover{
+
+        background:var(--accent-color);
+
+
+    }
+
+    .overview-btn:hover{
+
+        background:var(--accent-gradient);
+        color:white;
+
+    }
+
+    #aiOverviewBtn:hover,
+    #exploreSearch:hover{
+
+        background:linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--accent-color) 16%, transparent),
+            rgba(255,255,255,.03)
+        );
+        color:white;
+
+    }
+
+}
+
+
+
+
+
+@media (max-width:768px){
+
+    #detailsBackButton{
+
+    left:auto;
+    right:15px;
+    top:15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    height:44px;
+    padding:10px 13px;
+    font-size:16px;
+
+}
+
+#watchlistDetailsBtn{
+
+    top:15px;
+    left:15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    height:44px;
+    padding:10px 13px;
+    font-size:16px;
+
+    right:auto;
+    width:auto;
+
+}
+
+.details-hero{
+
+    height:510px;
+    background-size:cover;
+    background-position:45% center;
+
+}
+
+.details-content{
+
+    flex-direction:column;
+    align-items:flex-start;
+
+    margin:0 20px;
+    margin-top:-240px;
+
+    gap:16px;
+
+}
+
+.details-poster{
+
+    width:235px;
+    height:353px;
+
+    margin-left:8px;
+
+}
+
+.details-info{
+
+    width:100%;
+    margin-top:0;
+
+}
+
+#detailsTitle{
+
+    font-size:44px;
+
+    text-align:left;
+
+    margin-top:10px;
+    margin-bottom:8px;
+    margin-left:10px;
+
+}
+
+#detailsInfo{
+
+    font-size:20px;
+
+    text-align:left;
+
+    margin-bottom:-50px;
+    margin-left:10px;
+
+}
+
+.details-meta{
+
+    gap:10px;
+
+}
+
+.details-meta p{
+
+    text-align:left;
+    font-size:15px;
+    margin-left:10px;
+
+}
+
+.details-overview h2,
+.details-cast h2{
+
+    font-size:30px;
+    margin-left:10px;
+
+    margin-top:-40px;
+
+}
+
+.details-overview p{
+
+    font-size:15px;
+    line-height:1.6;
+
+}
+
+.cast-cards{
+
+    gap:8px;
+    width:85px;
+    margin-left:-15px;
+
+    margin-top:-40px;
+
+}
+
+#aiOverviewBox{
+
+    font-size:14px;
+    line-height:1.6;
+    margin-left:10px;
+
+}
+
+#aiOverviewBtn{
+
+    padding:10px 15px;
+    font-size:14px;
+    margin-left:10px;
+
+}
+
+.details-trailer{
+
+    width:100%;
+    text-align:center;
+    margin-left:0px;
+
+}
+
+.details-trailer h2{
+
+    margin-bottom:16px;
+
+
+
+
+
+}
+
+.details-trailer iframe{
+
+    width:100%;
+    aspect-ratio:16/9;
+    height:auto;
+
+
+
+    border-radius:16px;
+    display:block;
+
+}
+
+.popup{
+
+    width:88%;
+    max-width:360px;
+
+    max-height:150vh;
+
+    overflow-y:auto;
+
+    border-radius:20px;
+
+    padding:18px;
+
+    box-sizing:border-box;
+
+}
+
+.popup-content{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.popup-poster{
+
+    width:60%;
+    max-width:160px;
+
+    height:auto;
+
+    align-self:flex-start;
+
+    border-radius:16px;
+
+}
+
+.popup-details{
+
+    width:100%;
+    text-align:left;
+
+}
+
+#popup-title{
+
+    font-size:1.6rem;
+    line-height:1.2;
+
+}
+
+.movie-info{
+
+    font-size:.9rem;
+
+}
+
+.genre-section,
+.cast-section{
+
+    margin-top:14px;
+
+}
+
+.genre,
+.cast{
+
+    font-size:1rem;
+    line-height:1.2;
+
+}
+
+.popup-backdrop img{
+
+    height:160px;
+    object-fit:cover;
+
+}
+
+#popup-overview{
+
+    font-size:.9rem;
+    line-height:1.5;
+
+}
+
+.overview-btn{
+
+    width:44%;
+
+    margin:20px auto 0;
+
+    display:block;
+
+    padding:12px;
+
+    font-size:.9rem;
+
+    border-radius:12px;
+
+}
+
+.popup-close{
+
+    width:36px;
+    height:36px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:26px;
+
+}
+
+/*======================
+    HOME PAGE
+=======================*/
+
+/* ---------- Navbar ---------- */
+.navbar{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    padding:8px 12px 4px;
+
+}
+
+.logo{
+align-self:flex-start;
+
+    font-size:1.5rem;
+
+    margin:0 0 10px 0;
+
+    position:relative;
+
+    display:inline-block;
+
+}
+
+.logo::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+
+
+    width:100%;
+
+    height:1.3px;
+
+    bottom:1px;
+
+    border-radius:20px;
+
+    color: white;
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #fff7cc,
+        #FFD700
+    );
+
+}
+
+.nav-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:nowrap;
+
+    gap:40px;
+
+    width:auto;
+
+    margin:0;
+
+    padding:0;
+
+}
+
+.nav-links a{
+
+    font-size:.75rem;
+
+}
+
+.hero-title{
+
+    font-size:1.9rem;
+
+    line-height:1.15;
+
+    margin:18px 18px 6px;
+
+}
+
+.hero-subtitle{
+
+    font-size:.82rem;
+
+    margin:0 0 22px;
+
+}
+
+.hero-divider{
+
+    width:75%;
+
+    margin:10px auto;
+
+}
+
+/* ---------- Search ---------- */
+
+.search_box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    width:calc(100% - 36px);
+
+    margin:20px auto;
+
+    box-sizing:border-box;
+
+}
+
+.search-input{
+
+    flex:1;
+
+    min-width:0;
+
+    position:relative;
+
+}
+
+.search_box input[type="text"]{
+
+    width:100%;
+
+    max-width:100%;
+
+    box-sizing:border-box;
+
+    padding:12px 18px 12px 45px;
+
+    font-size:15px;
+
+}
+
+.search-input i{
+
+    left:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:18px;
+
+}
+
+.search_button{
+
+    width:74px;
+
+    min-width:74px;
+
+    max-width:90px;
+
+    padding:10px 0;
+
+    font-size:13px;
+
+    flex:none;
+
+}
+
+/* ---------- Categories ---------- */
+
+.category-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:nowwrap;
+
+    gap:8px;
+
+    margin:-50px 8px 30px;
+
+}
+
+.category{
+
+    flex:1;
+
+    padding:10px 0;
+
+    font-size:.9rem;
+
+}
+
+.featured{
+
+    margin:0 10px;
+
+}
+
+.featured h2{
+
+    font-size:1.3rem;
+
+    margin-bottom:4px;
+
+}
+
+.movie-card{
+
+    width:115px;
+
+    flex-shrink:0;
+
+}
+
+.movie-card img{
+
+    width:115px;
+
+    height:170px;
+
+}
+
+.movie-card h3{
+
+    font-size:.85rem;
+
+    margin:8px;
+
+}
+
+.movie-card p{
+
+    font-size:.75rem;
+
+    margin:0 8px 8px;
+
+}
+
+.movie-container{
+
+    gap:10px;
+
+    padding:16px 6px 4px;
+
+}
+
+
+.load-more{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:115px;
+
+}
+
+.load-more-card{
+
+    min-width:115px;
+
+    padding-top:137px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+    transform:translateY(-55px);
+
+}
+#detailsTagline{
+
+    margin-top:-140px;
+
+    margin-left:15px;
+
+    font-size:15px;
+
+    letter-spacing:7px;
+
+}
+
+#backButton{
+
+    display:block;
+
+    width:fit-content;
+
+    margin:25px auto 0;
+
+    padding:10px 22px;
+
+    font-size:15px;
+
+    border-radius:25px;
+
+}
+
+.no-results{
+
+    margin-top:90px;
+
+}
+
+.genre-section-page h2{
+
+    font-size:28px;
+
+    margin:0 0 22px;
+
+    text-align:center;
+
+    display:block;
+
+    margin-bottom:60px;
+
+}
+
+#genreBackButton{
+
+margin-top:50px;
+
+margin-right: -10px;
+
+    padding:10px 22px;
+
+
+}
+
+.genre-section-page{
+
+    padding:25px 20px 30px;
+
+}
+
+.genre-grid{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:left;
+
+    gap:10px 8px;
+
+    margin-top:12px;
+
+}
+
+.filter-list{
+
+    max-height:260px;
+
+}
+
+#yearModal{
+
+    width:88%;
+    max-width:320px;
+
+    padding:22px 18px;
+
+    box-sizing:border-box;
+
+}
+
+#yearInput{
+
+    width:100%;
+
+    box-sizing:border-box;
+
+}
+
+
+#languageModal{
+
+    width:88%;
+    max-width:340px;
+
+    padding:22px 18px;
+
+    box-sizing:border-box;
+
+}
+
+#ratingModal{
+
+    width:88%;
+    max-width:340px;
+
+    padding:22px 18px;
+
+    box-sizing:border-box;
+
+}
+
+#platformModal{
+
+    width:90%;
+    max-width:350px;
+
+    padding:22px 18px;
+
+    box-sizing:border-box;
+
+}
+
+.selected-filters{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:left;
+
+    gap:8px;
+
+    margin:18px 10px;
+
+}
+
+.no-filter-results{
+
+    text-align:center;
+
+}
+
+.no-filter-results h2{
+
+    text-align:center;
+
+    margin:20px 10px 25px;
+
+}
+
+.no-filter-results p{
+
+    text-align:center;
+
+    max-width:580px;
+
+    margin:20 auto;
+
+}
+
+
+#watchlistModal{
+
+    width:90%;
+    max-width:340px;
+
+    padding:20px 16px;
+
+    max-height:78vh;
+
+    box-sizing:border-box;
+
+}
+
+#watchlistModal h2{
+
+    font-size:24px;
+
+}
+
+.watchlist-item{
+
+    padding:14px 16px;
+
+    margin-bottom:12px;
+
+}
+
+.watchlist-poster{
+
+    width:45px;
+
+    height:65px;
+
+}
+
+.watchlist-title{
+
+    font-size:15px;
+
+}
+
+.watchlist-remove{
+
+    font-size:22px;
+
+}
+
+#watchlistContent{
+
+    max-height:58vh;
+
+}
+
+#exploreModal{
+
+    width:90%;
+    max-width:340px;
+
+    padding:22px 18px;
+
+    box-sizing:border-box;
+
+}
+
+#exploreModal h2{
+
+    font-size:24px;
+
+}
+
+.exploreText{
+
+    font-size:15px;
+
+    margin-bottom:18px;
+
+}
+
+#exploreInput{
+
+    height:90px;
+
+    font-size:16px;
+
+    padding:16px;
+
+}
+
+#exploreInput::placeholder{
+
+    font-size:16px;
+
+}
+
+#exploreSearch{
+
+    width:170px;
+
+    padding:12px;
+
+    font-size:17px;
+
+}
+
+.explore-item{
+
+    padding:14px 16px;
+
+    min-height:auto;
+
+    font-size:17px;
+
+}
+
+#exploreResults{
+
+    max-height:220px;
+
+}
+
+#aboutModal{
+
+    width:90%;
+    max-width:340px;
+
+    padding:22px 18px;
+
+    box-sizing:border-box;
+
+}
+
+#aboutModal h1{
+
+    font-size:24px;
+
+}
+
+#aboutModal p{
+
+    font-size:15px;
+
+    line-height:1.7;
+
+}
+
+#closeWatchlist,
+#closeExplore,
+#closeAbout{
+
+    top:14px;
+
+    right:16px;
+
+    font-size:28px;
+
+}
+
+.keyboard-up{
+
+    transition:transform .25s ease;
+
+}
 
 }
