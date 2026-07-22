@@ -5989,7 +5989,8 @@ function loadTV(page=1){
 function searchMovies(page=1){
 
 
-
+searchAutocomplete.innerHTML = "";
+searchAutocomplete.style.display = "none";
     const searchText = searchInput.value;
     if(page==1){
 

@@ -4308,6 +4308,15 @@ transform:scale(1.2);
 
 }
 
+
+.cast-card{
+    width:95px;
+}
+
+.cast-card img{
+    width:80px;
+    height:80px;
+}
 #aiOverviewBox{
 
     font-size:14px;
@@ -4820,9 +4829,31 @@ margin-right: -10px;
 
 }
 
+
+.genre-chip{
+
+    padding:11px 18px;
+
+}
+
+
+
 .genre-section-page{
 
-    padding:25px 20px 30px;
+    padding:13px 20px 25px;
+
+
+
+}
+
+
+.genre-chip:not(.selected-genre):hover{
+
+    background:var(--accent-light);
+
+    color:var(--accent-color);
+
+    border-color:var(--accent-color);
 
 }
 
@@ -5083,6 +5114,14 @@ margin-right: -10px;
 
 }
 
+
+
+.episode-popup{
+
+    width:274px;
+
+}
+
 #closeWatchlist,
 #closeExplore,
 #closeAbout{
@@ -5100,5 +5139,12 @@ margin-right: -10px;
     transition:transform .25s ease;
 
 }
+
+
+.season-layout{
+
+        overflow-x:hidden;
+
+    }
 
 }
